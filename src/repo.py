@@ -1,7 +1,8 @@
 #!python3
 #encoding:utf-8
-import os.path
+import os, os.path
 import argparse
+from LicenseFile import LicenseFile
 
 class Main:
     def Run(self):
@@ -28,13 +29,17 @@ class Main:
         parser.add_argument('-e', '--exception', action='append')
         parser.add_argument('-s', '--ssh-host')
         parser.set_defaults(handler=self.__Make)
-
+        
         args = parser.parse_args()
+        
+        if None is args.output_dir: args.output_dir = os.getcwd()
+        
         if hasattr(args, 'handler'): args.handler(args)
         else: parser.print_help()
-
+        
     def __Make(self, args):
         print('ReadMe.mdなどを作成する予定。args={}'.format(args))
+        LicenseFile(args).Write()
         
     def __Update(self, args):
         print('ライセンスの年号更新を実装する予定。args={}'.format(args))
