@@ -9,7 +9,6 @@ import datetime
 class LicenseFile:
     def __init__(self, args):
         self.__args = args
-        #self.__config = configparser.ConfigParser()
         self.__config = configparser.ConfigParser(interpolation=configparser.ExtendedInterpolation())
         self.__path_dir_root = pathlib.Path(__file__).resolve().expanduser().parent.parent
         self.__path_file_config = None
@@ -34,15 +33,15 @@ class LicenseFile:
         record = self.__SelectLicense(licenseDbPath )
         if record is None: raise Exception("指定されたライセンス'{}'はDBに存在しません。DBに存在するライセンスは次のとおりです。{}".format(self.__args.license, self.__SelectAllKeys(licenseDbPath )))
         
-        with open(path, 'w') as f:
-            f.write(self.__Replace(record[0]))
- 
+        source = self.__Replace(record[0])
+        with open(path, 'w') as f: f.write(source)
+        
     def __RaiseLoadLicenseDbPath(self):
         if 'Db' not in self.__config.sections(): raise Exception('Dbセクションがありません。file={}'.format(self.__path_file_config))
         if 'Licenses' not in self.__config['Db']: raise Exception('DbセクションにLicensesキーがありません。LicensesDBファイルパスを指定してください。file={}'.format(self.__path_file_config))
         if '' ==  self.__config['Db']['Licenses'].strip(): raise Exception('DbセクションのLicensesキーに値がありません。LicensesDBファイルパスを指定してください。file={}'.format(self.__path_file_config))
         return pathlib.Path(self.__config['Db']['Licenses']).expanduser().resolve()
-
+    
     def __SelectLicense(self, licenseDbPath):
         conn = sqlite3.connect(str(licenseDbPath))
         cur = conn.cursor()
@@ -50,7 +49,7 @@ class LicenseFile:
         res = cur.fetchone()
         conn.close()
         return res
-            
+
     def __SelectAllKeys(self, licenseDbPath):
         conn = sqlite3.connect(str(licenseDbPath))
         cur = conn.cursor()
@@ -66,7 +65,6 @@ class LicenseFile:
         if '' ==  self.__config['License']['Author'].strip(): raise Exception('LicenseセクションのAuthorキーに値がありません。著者名を入力してください。file={}'.format(self.__path_file_config))
         return self.__config['License']['Author']
 
-
     def __Replace(self, source):
         author = None
         try: author = self.__LoadLicenseAuthor()
@@ -74,5 +72,8 @@ class LicenseFile:
         if author is None: author = self.__args.username
         if '[fullname]' in source and author is None:
             raise Exception("ライセンス'{}'には著作者名が必要です。起動引数-uか、repo.iniの[License]Authorを指定してください。".format(self.__args.license))
-        res = source.replace('[year]', '{0:%Y}'.format(datetime.datetime.now()))
-        return res.replace('[fullname]', self.__args.username)
+        elif author is not None:
+            res = source.replace('[year]', '{0:%Y}'.format(datetime.datetime.now()))
+            return res.replace('[fullname]', author)
+        else:
+            return source.replace('[year]', '{0:%Y}'.format(datetime.datetime.now()))
