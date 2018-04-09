@@ -66,7 +66,7 @@ $ repo change ...
 repo.ini
 ```ini
 [Update]
-CommitMessage=ライセンス表記の更新
+DefaultCommitMessage=ライセンス表記の更新
 ```
 
 ### change
@@ -101,3 +101,34 @@ $ repo {dirpath} -u {username} -d {description} -m {commit-message} -l {license}
 ```
 
 
+
+repo.config
+```ini
+[Db]
+Accounts=
+Licenses=
+
+[Default]
+Description=
+License=CC0-1.0
+Extension=
+
+[Git]
+Username=
+MailAddress=
+CommitMessage=${Default.Description}
+SshHost=
+
+[GitHub]
+Username=${Git.Username}
+Description=${Default.Description}
+Homepage=
+
+[Mastodon]
+Text=${Default.Description}
+Hash=<Languages> ${Default.License}
+
+[HatenaBlog]
+Title=${Default.Description}
+MorePre=
+```
