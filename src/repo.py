@@ -27,8 +27,11 @@ class Main:
         parser.add_argument('-l', '--license')
         parser.add_argument('-e', '--exception', action='append')
         parser.add_argument('-s', '--ssh-host')
+        parser.set_defaults(handler=self.__Make)
+
         args = parser.parse_args()
-        self.__Make(args)
+        if hasattr(args, 'handler'): args.handler(args)
+        else: parser.print_help()
 
     def __Make(self, args):
         print('ReadMe.mdなどを作成する予定。args={}'.format(args))
