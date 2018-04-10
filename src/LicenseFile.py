@@ -23,11 +23,13 @@ class LicenseFile:
         raise Exception('repo.iniファイルが存在しません。')
 
     def Write(self):
-        path = os.path.join(self.__args.output_dir, 'LICENSE.txt')
-        if os.path.isfile(path):
-            print('LICENSE.txtが既存のため作成は中止します。')
-            return
-        
+        path = pathlib.Path(self.__args.output_dir)
+        for ext in ['', '.md', '.txt', '.MD', '.TXT']:
+            for filepath in path.glob('*' + ext):
+                if not filepath.is_file(): continue
+                if 'LICENSE'.lower() == filepath.name.split('.')[0].lower():
+                    print('LICENSEファイルが既存のため作成は中止します。: {}'.format(filepath))
+                    return
         self.__LoadConfig()
         licenseDbPath = self.__RaiseLoadLicenseDbPath()
         record = self.__SelectLicense(licenseDbPath )

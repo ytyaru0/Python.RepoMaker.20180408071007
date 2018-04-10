@@ -26,11 +26,19 @@ class ReadMeFile:
         raise Exception('repo.iniファイルが存在しません。')
 
     def Write(self):
+        path = pathlib.Path(self.__args.output_dir)
+        for ext in ['', '.md', '.txt', '.MD', '.TXT']:
+            for filepath in path.glob('*' + ext):
+                if not filepath.is_file(): continue
+                if 'ReadMe'.lower() == filepath.name.split('.')[0].lower():
+                    print('ReadMeファイルが既存のため作成は中止します。: {}'.format(filepath))
+                    return
+        """
         path = os.path.join(self.__args.output_dir, self.__filename)
         if os.path.isfile(path):
             print('ReadMe.mdが既存のため作成は中止します。')
             return
-        
+        """
         self.__LoadConfig()
         tpl_var_dict = {}
         tpl_var_dict['Description'] = self.__args.description
