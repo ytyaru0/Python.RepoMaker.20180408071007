@@ -6,6 +6,7 @@ import configparser
 import sqlite3
 import datetime
 from TemplateRenderer import TemplateRenderer
+from UseLibLicense import UseLibLicense
 
 class ReadMeFile:
     def __init__(self, args):
@@ -89,7 +90,8 @@ class ReadMeFile:
         else: return None
 
     def __GetUseLibLicenseText(self):
-        return ''
+        return UseLibLicense(self.__args).GetMarkdownTable()
+        #return ''
 
     def __RaiseLoadLicenseDbPath(self):
         if 'Db' not in self.__config.sections(): raise Exception('Dbセクションがありません。file={}'.format(self.__path_file_config))
