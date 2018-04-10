@@ -15,5 +15,9 @@
 
 {{ License }}
 
-{{ Use-Lib-License }}
+利用ライブラリは以下。
+
+Library|License|Copyright
+-------|-------|---------
+{{ UseLibLicense }}
 

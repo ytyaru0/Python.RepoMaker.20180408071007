@@ -2,7 +2,9 @@
 #encoding:utf-8
 import os, os.path
 import argparse
+import shlex
 from LicenseFile import LicenseFile
+from ReadMeFile import ReadMeFile
 
 class Main:
     def Run(self):
@@ -26,7 +28,7 @@ class Main:
         parser.add_argument('-hp', '--homepage')
         parser.add_argument('-m', '--messages', action='append')
         parser.add_argument('-l', '--license')
-        parser.add_argument('-e', '--exception', action='append')
+        parser.add_argument('-e', '--extension', action='append')
         parser.add_argument('-s', '--ssh-host')
         parser.set_defaults(handler=self.__Make)
         
@@ -40,6 +42,7 @@ class Main:
     def __Make(self, args):
         print('ReadMe.mdなどを作成する予定。args={}'.format(args))
         LicenseFile(args).Write()
+        ReadMeFile(args).Write()
         
     def __Update(self, args):
         print('ライセンスの年号更新を実装する予定。args={}'.format(args))
