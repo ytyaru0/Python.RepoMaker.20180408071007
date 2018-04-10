@@ -44,15 +44,7 @@ class ReadMeFile:
         
         path_out = os.path.join(self.__args.output_dir, self.__filename)
         with open(path_out, 'w') as f: f.write(res)
-        
-        """
-        licenseDbPath = self.__RaiseLoadLicenseDbPath()
-        record = self.__SelectLicense(licenseDbPath )
-        if record is None: raise Exception("指定されたライセンス'{}'はDBに存在しません。DBに存在するライセンスは次のとおりです。{}".format(self.__args.license, self.__SelectAllKeys(licenseDbPath )))
-        
-        source = self.__Replace(record[0])
-        with open(path, 'w') as f: f.write(source)
-        """
+       
     def __GetLicenseText(self):
         path = pathlib.Path(__file__).parent.parent / ('res/template/license/' + self.__args.license)
         if path.is_file():
@@ -91,7 +83,6 @@ class ReadMeFile:
 
     def __GetUseLibLicenseText(self):
         return UseLibLicense(self.__args).GetMarkdownTable()
-        #return ''
 
     def __RaiseLoadLicenseDbPath(self):
         if 'Db' not in self.__config.sections(): raise Exception('Dbセクションがありません。file={}'.format(self.__path_file_config))
@@ -104,35 +95,3 @@ class ReadMeFile:
         if 'Author' not in self.__config['License']: raise Exception('LicenseセクションにAuthorキーがありません。著者名を入力してください。file={}'.format(self.__path_file_config))
         if '' ==  self.__config['License']['Author'].strip(): raise Exception('LicenseセクションのAuthorキーに値がありません。著者名を入力してください。file={}'.format(self.__path_file_config))
         return self.__config['License']['Author']
-
-    """
-    def __SelectLicense(self, licenseDbPath):
-        conn = sqlite3.connect(str(licenseDbPath))
-        cur = conn.cursor()
-        cur.execute("select Body from Licenses where Key='{}';".format(self.__args.license))
-        res = cur.fetchone()
-        conn.close()
-        return res
-
-    def __SelectAllKeys(self, licenseDbPath):
-        conn = sqlite3.connect(str(licenseDbPath))
-        cur = conn.cursor()
-        cur.execute("select Key from Licenses order by Key asc;".format(self.__args.license))
-        res = cur.fetchall()
-        conn.close()
-        #return res
-        return [r[0] for r in res if 'other' != r[0]]
-    def __Replace(self, source):
-        author = None
-        try: author = self.__LoadLicenseAuthor()
-        except: pass
-        if author is None: author = self.__args.username
-        if '[fullname]' in source and author is None:
-            raise Exception("ライセンス'{}'には著作者名が必要です。起動引数-uか、repo.iniの[License]Authorを指定してください。".format(self.__args.license))
-        elif author is not None:
-            res = source.replace('[year]', '{0:%Y}'.format(datetime.datetime.now()))
-            return res.replace('[fullname]', author)
-        else:
-            return source.replace('[year]', '{0:%Y}'.format(datetime.datetime.now()))
-    """
-

@@ -56,7 +56,6 @@ class LicenseFile:
         cur.execute("select Key from Licenses order by Key asc;".format(self.__args.license))
         res = cur.fetchall()
         conn.close()
-        #return res
         return [r[0] for r in res if 'other' != r[0]]
  
     def __LoadLicenseAuthor(self):
