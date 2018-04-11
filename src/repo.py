@@ -5,6 +5,7 @@ import argparse
 import shlex
 from LicenseFile import LicenseFile
 from ReadMeFile import ReadMeFile
+from GitIgnoreFile import GitIgnoreFile
 
 class Main:
     def Run(self):
@@ -43,7 +44,7 @@ class Main:
         print('ReadMe.mdなどを作成する予定。args={}'.format(args))
         LicenseFile(args).Write()
         ReadMeFile(args).Write()
-        
+        GitIgnoreFile(args).Write()
     def __Update(self, args):
         print('ライセンスの年号更新を実装する予定。args={}'.format(args))
         
