@@ -6,6 +6,7 @@ import sqlite3
 import datetime
 import io
 import re
+from CopyRightSearcher import CopyRightSearcher
 
 # 使用ライブラリのライセンス情報を取得してmarkdownのテーブル形式として返却する
 # ソースコードから解析するのは難易度が高いので、
@@ -57,17 +58,20 @@ class UseLibLicense:
 
     def __MetadataToMdTable(self, metadatas):
         with io.StringIO() as buf:
+            crs = CopyRightSearcher()
             for m in metadatas:
-                buf.write('[' + m.name + ' ' + m.version + ']' + '(' + m.url  + ' ' + '"' + m.description + '"' + ')')
                 if m.license is None:
                     print('*************** license が None. {}'.format(m.name))
                     continue
+                buf.write('[' + m.name + ' ' + m.version + ']' + '(' + m.url  + ' ' + '"' + m.description + '"' + ')')
+                
                 license_url = self.__GetSameLicenseUrl(m.license)
-                if license_url is None:
-                    buf.write('|' + m.license)
-                else:
-                    buf.write('|' + '[' + m.license + ']' + '(' + license_url + ')')
+                if license_url is None: buf.write('|' + m.license)
+                else: buf.write('|' + '[' + m.license + ']' + '(' + license_url + ')')
                 buf.write('|' + 'Copyright (c) ' + '{0:%Y}'.format(datetime.datetime.now()) + ' ' + m.author)
+                copyright = crs.Search(m)
+                if copyright is None: buf.write('|' + m.author if m.author is not None else '')
+                else: buf.write('|' + copyright)
                 buf.write('\n')
             return buf.getvalue()
 

@@ -1,0 +1,7 @@
+#!/bin/bash
+
+#pyscript="${HOME}/root/script/py/_command/repo/repo.py"
+pyscript="/tmp/work/Python.RepoMaker.20180408071007/src/repo.py"
+#pyscript=repo.py
+python3 "${pyscript}" "$@"
+

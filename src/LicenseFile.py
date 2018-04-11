@@ -24,19 +24,21 @@ class LicenseFile:
 
     def Write(self):
         path = pathlib.Path(self.__args.output_dir)
-        for ext in ['', '.md', '.txt', '.MD', '.TXT']:
-            for filepath in path.glob('*' + ext):
-                if not filepath.is_file(): continue
-                if 'LICENSE'.lower() == filepath.name.split('.')[0].lower():
-                    print('LICENSEファイルが既存のため作成は中止します。: {}'.format(filepath))
-                    return
+        for filepath in path.glob('*'):
+            if not filepath.is_file(): continue
+            print(filepath)
+            for fn in ['LICENSE', 'LICENCE', 'COPYING', 'COPYRIGHT']:
+                for ext in ['', '.md', '.txt']:
+                    if (fn+ext).lower() == filepath.name.lower():
+                        print('LICENSEファイルが既存のため作成は中止します。: {}'.format(filepath))
+                        return
         self.__LoadConfig()
         licenseDbPath = self.__RaiseLoadLicenseDbPath()
         record = self.__SelectLicense(licenseDbPath )
         if record is None: raise Exception("指定されたライセンス'{}'はDBに存在しません。DBに存在するライセンスは次のとおりです。{}".format(self.__args.license, self.__SelectAllKeys(licenseDbPath )))
         
         source = self.__Replace(record[0])
-        with open(path, 'w') as f: f.write(source)
+        with open(path / 'LICENSE.txt', 'w') as f: f.write(source)
         
     def __RaiseLoadLicenseDbPath(self):
         if 'Db' not in self.__config.sections(): raise Exception('Dbセクションがありません。file={}'.format(self.__path_file_config))

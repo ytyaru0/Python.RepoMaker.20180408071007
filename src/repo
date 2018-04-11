@@ -1,7 +1,18 @@
 #!/bin/bash
 
+# 2コマンド案
+#   $ pj py db -PjName -FileName
+#   $ license -l cc0-1.0 -u Username -d Description -e py
+# 1コマンド案
+#   $ repo py db -PjName -FileName -l cc0-1.0 -d Description -u Username
+
+# プロジェクト一式作成
+pyscript="${HOME}/root/script/py/_command/pj/pj.py"
+python3 "${pyscript}" "$@"
+
+# LICENSE.txt, ReadMe.md
+#pyscript=repo.py
 #pyscript="${HOME}/root/script/py/_command/repo/repo.py"
 pyscript="/tmp/work/Python.RepoMaker.20180408071007/src/repo.py"
-#pyscript=repo.py
 python3 "${pyscript}" "$@"
 
