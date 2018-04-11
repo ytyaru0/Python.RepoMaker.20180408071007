@@ -90,7 +90,9 @@ class ReadMeFile:
         else: return None
 
     def __GetUseLibLicenseText(self):
-        return UseLibLicense(self.__args).GetMarkdownTable()
+        ext = self.__GetExtension()
+        if ext == 'py': return UseLibLicense(self.__args).GetMarkdownTable()
+        else: return ''
 
     def __RaiseLoadLicenseDbPath(self):
         if 'Db' not in self.__config.sections(): raise Exception('Dbセクションがありません。file={}'.format(self.__path_file_config))
