@@ -72,6 +72,7 @@ class UseLibLicense:
                 license_url, copyright = crs.Search(m)
                 if copyright is None or '' == copyright.strip(): name = m.author
                 else: name = copyright
+                name = self.__EscapeMarkdownUrlName(name)
                 if license_url is not None: buf.write('|[{}]({})'.format(name, license_url))
                 else: buf.write('|' + name)
                 """
@@ -83,6 +84,15 @@ class UseLibLicense:
                 """
                 buf.write('\n')
             return buf.getvalue()
+
+    def __EscapeMarkdownUrlName(self, url_name_str):
+        res = url_name_str.replace('[', '\[')
+        res = res.replace(']', '\]')
+        res = res.replace('<', '\<')
+        res = res.replace('>', '\>')
+        res = res.replace('(', '\(')
+        res = res.replace(')', '\)')
+        return res
 
     def __GetLicenseNames(self):
         conn = sqlite3.connect(str(self.__licenseDbPath))
