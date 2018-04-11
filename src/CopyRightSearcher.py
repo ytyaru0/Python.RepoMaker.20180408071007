@@ -17,8 +17,8 @@ import time
 # URLがgithubのとき、LICENSE.txtなどのファイルを探し、その中からCopyRight文字列を探す。
 class CopyRightSearcher:
     def __init__(self):
-        self.__pattern1 = re.compile(r'.*Copyright[ ]*(© |\([C|c]\))?[ ]*[0-9]{4:}.*')
-        self.__pattern2 = re.compile(r'.*(© |\([C|c]\)) [ ]*[0-9]{4:}.*')
+        self.__pattern1 = re.compile(r'.*Copyright[ ]*(© |\([C|c]\))?[ ]*[0-9]{4,}.*')
+        self.__pattern2 = re.compile(r'.*(© |\([C|c]\))[ ]*[0-9]{4,}.*')
         self.__path_cache = pathlib.Path(__file__).parent / 'url_cache.tsv'
         self.__LoadCache()
 
@@ -130,8 +130,6 @@ class CopyRightSearcher:
         if m is not None:
             print(m)
             return m[0]
-
-        re.
 
         return None
         # Copyright YYYY

@@ -1,4 +1,21 @@
 pip		
 pytz		
 requests		
-MarkupSafe	http://raw.githubusercontent.com/pallets/markupsafe/master/LICENSE	
+MarkupSafe	http://raw.githubusercontent.com/pallets/markupsafe/master/LICENSE	Copyright (c) 2010 by Armin Ronacher and contributors.  See AUTHORS
+bs4		
+SQLAlchemy		
+python-editor	https://raw.githubusercontent.com/fmoo/python-editor/master/LICENSE	
+pyotp	https://raw.githubusercontent.com/pyotp/pyotp/master/LICENSE	Copyright (C) 2011-2017 Mark Percival <m@mdp.im>,
+alembic		
+python-dateutil		
+idna		
+six		
+chardet	https://raw.githubusercontent.com/chardet/chardet/master/LICENSE	
+normality	http://raw.githubusercontent.com/pudo/normality/master/LICENSE	Copyright (c) 2013, Open Knowledge Foundation, Friedrich Lindenberg,
+dataset	http://raw.githubusercontent.com/pudo/dataset/master/LICENSE.txt	Copyright (c) 2013, Open Knowledge Foundation, Friedrich Lindenberg,
+Mako		
+certifi		
+PyYAML		
+banal	http://raw.githubusercontent.com/pudo/banal/master/LICENSE	
+urllib3		
+beautifulsoup4		
