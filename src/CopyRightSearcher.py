@@ -3,9 +3,6 @@
 import sys, os.path, pathlib
 sys.path.append(os.path.expanduser('~/root/_meta/path'))
 from PathIni import PathIni
-#import argparse, configparser
-#import sqlite3
-#import datetime
 import io
 import re
 from distutils.dist import DistributionMetadata
@@ -24,7 +21,6 @@ class CopyRightSearcher:
 
     def Search(self, metadata:DistributionMetadata):
         license_url, copyright = self.__FindLicenseUrlFromCache(metadata)
-        #license_url = self.__FindLicenseUrlFromCache(metadata.url)
         if license_url is None: return self.__Search(metadata)
         elif '' == license_url: return (None, None) # cacheにあるが昔探して見つけられなかった
         elif license_url is not None: return (license_url, copyright)  # cacheにある

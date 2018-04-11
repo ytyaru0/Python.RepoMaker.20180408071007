@@ -68,20 +68,12 @@ class UseLibLicense:
                 license_url = self.__GetSameLicenseUrl(m.license)
                 if license_url is None: buf.write('|' + m.license)
                 else: buf.write('|' + '[' + m.license + ']' + '(' + license_url + ')')
-                #buf.write('|' + 'Copyright (c) ' + '{0:%Y}'.format(datetime.datetime.now()) + ' ' + m.author)
                 license_url, copyright = crs.Search(m)
                 if copyright is None or '' == copyright.strip(): name = m.author
                 else: name = copyright
                 name = self.__EscapeMarkdownUrlName(name)
                 if license_url is not None: buf.write('|[{}]({})'.format(name, license_url))
                 else: buf.write('|' + name)
-                """
-                if copyright is None: buf.write('|' + m.author if m.author is not None else '')
-                else:
-                    if license_url is not None:
-                        '|[{}]({})'.format(name, license_url)
-                    buf.write('|' + copyright)
-                """
                 buf.write('\n')
             return buf.getvalue()
 
