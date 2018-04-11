@@ -9,6 +9,7 @@ import re
 from CopyRightSearcher import CopyRightSearcher
 
 # 使用ライブラリのライセンス情報を取得してmarkdownのテーブル形式として返却する
+# Python限定。
 # ソースコードから解析するのは難易度が高いので、
 # 仮想環境下にある全パッケージからライセンス情報を取得する。
 # http://tell-k.hatenablog.com/entry/2012/02/04/131805
@@ -16,8 +17,7 @@ from CopyRightSearcher import CopyRightSearcher
 # https://spdx.org/licenses/
 
 # * 成功: MIT, MIT License, Apatch 2.0
-# * 取得できず: BSD, BSD-Like, Simplified BSD, LGPL
-# * 間違い: BSD License(Unlicenseになる)
+# * 取得できず: BSD, BSD-Like, Simplified BSD, BSD License, LGPL
 # * 未確認: CC0等上記以外すべて
 class UseLibLicense:
     def __init__(self, args):
